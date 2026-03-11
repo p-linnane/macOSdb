@@ -105,9 +105,15 @@ public actor IPSWScanner {
         for path in kernelcaches {
             guard var kernel = KernelParser.parse(kernelcachePath: path) else { continue }
             if kernel.devices.isEmpty {
-                // Try BuildManifest device map first, then fall back to hardcoded board codename map
+                // Try BuildManifest device map first, then fall back to hardcoded board codename map.
+                // Normalize development kernelcache names to release for the fallback lookup.
+                let releaseKey = kernel.file.replacingOccurrences(
+                    of: "kernelcache.development.",
+                    with: "kernelcache.release."
+                )
                 let devices = deviceMap[kernel.file]
                     ?? boardCodeNameDevices[kernel.file]
+                    ?? boardCodeNameDevices[releaseKey]
                 if let devices {
                     kernel = KernelInfo(
                         file: kernel.file,
@@ -130,12 +136,19 @@ public actor IPSWScanner {
             return DeviceChip(device: device, chip: chip.displayName)
         }
         guard !deviceChips.isEmpty else { return kernel }
+        let resolvedChip: String
+        if kernel.chip == "Unknown" {
+            let uniqueChips = Set(deviceChips.map(\.chip))
+            resolvedChip = uniqueChips.count == 1 ? uniqueChips.first! : "Multiple"
+        } else {
+            resolvedChip = kernel.chip
+        }
         return KernelInfo(
             file: kernel.file,
             darwinVersion: kernel.darwinVersion,
             xnuVersion: kernel.xnuVersion,
             arch: kernel.arch,
-            chip: kernel.chip,
+            chip: resolvedChip,
             devices: kernel.devices,
             deviceChips: deviceChips
         )
