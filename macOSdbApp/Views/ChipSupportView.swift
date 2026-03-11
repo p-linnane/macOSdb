@@ -44,24 +44,27 @@ struct ChipSupportView: View {
 
     private var generationGroups: [GenerationGroup] {
         let sorted = chipGroups.sorted { lhs, rhs in
-            if lhs.chip.generation != rhs.chip.generation {
-                return lhs.chip.generation > rhs.chip.generation
+            if lhs.chip.series.sortOrder != rhs.chip.series.sortOrder {
+                return lhs.chip.series.sortOrder > rhs.chip.series.sortOrder
             }
             return lhs.chip.tier < rhs.chip.tier
         }
 
         var result: [GenerationGroup] = []
         for group in sorted {
-            let gen = group.chip.generation
-            if let index = result.firstIndex(where: { $0.generation == gen }) {
+            let label = group.chip.series.label
+            if let index = result.firstIndex(where: { $0.label == label }) {
                 result[index] = GenerationGroup(
-                    generation: gen,
-                    label: result[index].label,
+                    generation: group.chip.generation,
+                    label: label,
                     chips: result[index].chips + [group]
                 )
             } else {
-                let label = gen == 0 ? "Other" : "Apple M\(gen) Series"
-                result.append(GenerationGroup(generation: gen, label: label, chips: [group]))
+                result.append(GenerationGroup(
+                    generation: group.chip.generation,
+                    label: label,
+                    chips: [group]
+                ))
             }
         }
         return result

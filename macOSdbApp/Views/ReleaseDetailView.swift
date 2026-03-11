@@ -99,7 +99,16 @@ struct ReleaseDetailView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
 
-            ForEach(release.kernels) { kernel in
+            ForEach(release.kernels.sorted { lhs, rhs in
+                let lhsChip = lhs.chipFamily
+                let rhsChip = rhs.chipFamily
+                let lhsOrder = lhsChip?.series.sortOrder ?? -1
+                let rhsOrder = rhsChip?.series.sortOrder ?? -1
+                if lhsOrder != rhsOrder { return lhsOrder > rhsOrder }
+                let lhsTier = lhsChip?.tier ?? .base
+                let rhsTier = rhsChip?.tier ?? .base
+                return lhsTier < rhsTier
+            }) { kernel in
                 KernelCard(kernel: kernel)
             }
         }

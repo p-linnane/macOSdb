@@ -507,8 +507,14 @@
     },
     {
       "arch" : "ARM64_T8140",
-      "chip" : "T8140",
+      "chip" : "A18 Pro",
       "darwinVersion" : "25.3.0",
+      "deviceChips" : [
+        {
+          "chip" : "A18 Pro",
+          "device" : "Mac17,5"
+        }
+      ],
       "devices" : [
         "Mac17,5"
       ],
