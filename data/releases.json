@@ -64,6 +64,105 @@
     "releaseName" : "Big Sur"
   },
   {
+    "buildNumber" : "20G95",
+    "dataFile" : "releases/11/macOS-11.5.2-20G95.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.5.2",
+    "releaseDate" : "2021-08-11",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20G80",
+    "dataFile" : "releases/11/macOS-11.5.1-20G80.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.5.1",
+    "releaseDate" : "2021-07-26",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20G71",
+    "dataFile" : "releases/11/macOS-11.5-20G71.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.5",
+    "releaseDate" : "2021-07-21",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20F71",
+    "dataFile" : "releases/11/macOS-11.4-20F71.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.4",
+    "releaseDate" : "2021-05-24",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20E241",
+    "dataFile" : "releases/11/macOS-11.3.1-20E241.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.3.1",
+    "releaseDate" : "2021-05-03",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20E232",
+    "dataFile" : "releases/11/macOS-11.3-20E232.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.3",
+    "releaseDate" : "2021-04-26",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20D91",
+    "dataFile" : "releases/11/macOS-11.2.3-20D91.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.2.3",
+    "releaseDate" : "2021-03-08",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20D80",
+    "dataFile" : "releases/11/macOS-11.2.2-20D80.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.2.2",
+    "releaseDate" : "2021-02-25",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20D74",
+    "dataFile" : "releases/11/macOS-11.2.1-20D74.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.2.1",
+    "releaseDate" : "2021-02-09",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20D64",
+    "dataFile" : "releases/11/macOS-11.2-20D64.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.2",
+    "releaseDate" : "2021-02-01",
+    "releaseName" : "Big Sur"
+  },
+  {
+    "buildNumber" : "20C69",
+    "dataFile" : "releases/11/macOS-11.1-20C69.json",
+    "isBeta" : false,
+    "isRC" : false,
+    "osVersion" : "11.1",
+    "releaseDate" : "2020-12-14",
+    "releaseName" : "Big Sur"
+  },
+  {
     "buildNumber" : "20B29",
     "dataFile" : "releases/11/macOS-11.0.1-20B29.json",
     "isBeta" : false,
