@@ -179,6 +179,10 @@ public enum DeviceRegistry {
             DeviceInfo(model: "Mac17,9", chip: .m5Max,
                        marketingName: "MacBook Pro (14-inch, M5 Max, 2026)", introduced: "2026-03"),
 
+            // MARK: A18 Pro (2026)
+            DeviceInfo(model: "Mac17,5", chip: .a18Pro,
+                       marketingName: "MacBook Neo (13-inch, 2026)", introduced: "2026-03"),
+
             // MARK: Virtual Mac
             DeviceInfo(model: "VirtualMac2,1", chip: .virtualMac,
                        marketingName: "Apple Virtual Machine", introduced: "2022-06")

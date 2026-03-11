@@ -4,6 +4,7 @@
 /// (e.g. `RELEASE_ARM64_T8132` → M4).
 public enum ChipFamily: String, CaseIterable, Sendable, Codable {
     case a12z
+    case a18Pro
     case m1
     case m1Pro
     case m1Max
@@ -29,6 +30,7 @@ public enum ChipFamily: String, CaseIterable, Sendable, Codable {
     public var displayName: String {
         switch self {
         case .a12z: "A12Z (DTK)"
+        case .a18Pro: "A18 Pro"
         case .m1: "M1"
         case .m1Pro: "M1 Pro"
         case .m1Max: "M1 Max"
@@ -53,21 +55,30 @@ public enum ChipFamily: String, CaseIterable, Sendable, Codable {
         }
     }
 
-    public var generation: Int {
+    public var series: ChipSeries {
         switch self {
-        case .a12z: 0
-        case .m1, .m1Pro, .m1Max, .m1Ultra: 1
-        case .m2, .m2Pro, .m2Max, .m2Ultra: 2
-        case .m3, .m3Pro, .m3Max, .m3Ultra: 3
-        case .m4, .m4Pro, .m4Max, .m4Ultra: 4
-        case .m5, .m5Pro, .m5Max, .m5Ultra: 5
-        case .virtualMac: 0
+        case .a12z: .other
+        case .a18Pro: .aSeries(18)
+        case .m1, .m1Pro, .m1Max, .m1Ultra: .mSeries(1)
+        case .m2, .m2Pro, .m2Max, .m2Ultra: .mSeries(2)
+        case .m3, .m3Pro, .m3Max, .m3Ultra: .mSeries(3)
+        case .m4, .m4Pro, .m4Max, .m4Ultra: .mSeries(4)
+        case .m5, .m5Pro, .m5Max, .m5Ultra: .mSeries(5)
+        case .virtualMac: .other
+        }
+    }
+
+    public var generation: Int {
+        switch series {
+        case .mSeries(let gen): gen
+        case .aSeries, .other: 0
         }
     }
 
     public var tier: ChipTier {
         switch self {
         case .a12z: .base
+        case .a18Pro: .pro
         case .m1, .m2, .m3, .m4, .m5: .base
         case .m1Pro, .m2Pro, .m3Pro, .m4Pro, .m5Pro: .pro
         case .m1Max, .m2Max, .m3Max, .m4Max, .m5Max: .max
@@ -81,6 +92,8 @@ public enum ChipFamily: String, CaseIterable, Sendable, Codable {
         switch archSuffix {
         // A12Z — Developer Transition Kit (macOS 11 only)
         case "T8020": .a12z
+        // A18 Pro — MacBook Neo (first A-series chip in a shipping Mac)
+        case "T8140": .a18Pro
         // M1 family — T8101 is the A14-derived ID used in macOS 11–12 kernelcaches
         case "T8101", "T8103": .m1
         case "T6000": .m1Pro
@@ -113,6 +126,31 @@ public enum ChipFamily: String, CaseIterable, Sendable, Codable {
 
     public static func from(chipName: String) -> Self? {
         allCases.first { $0.displayName == chipName }
+    }
+}
+
+public enum ChipSeries: Sendable, Hashable {
+    case mSeries(Int)
+    case aSeries(Int)
+    case other
+
+    public var label: String {
+        switch self {
+        case .mSeries(let gen): "Apple M\(gen) Series"
+        case .aSeries(let gen): "Apple A\(gen) Series"
+        case .other: "Other"
+        }
+    }
+
+    /// Sort order for display — higher values appear first (newest first).
+    /// M-series sorts by generation, A-series sorts just below M1,
+    /// and Other (Virtual Mac, DTK) sorts last.
+    public var sortOrder: Int {
+        switch self {
+        case .mSeries(let gen): 100 + gen
+        case .aSeries(let gen): gen
+        case .other: -1
+        }
     }
 }
 
