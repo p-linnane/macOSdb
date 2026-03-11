@@ -12,6 +12,12 @@ bash, curl, httpd, LibreSSL, OpenSSH, rsync, Ruby, SQLite, vim, zip, zsh — plu
 
 Requires macOS 15.0+ and Apple Silicon.
 
+### Homebrew
+
+```bash
+brew install p-linnane/tap/macosdb
+```
+
 ### App
 
 Download the latest release from [GitHub Releases](https://github.com/p-linnane/macOSdb/releases), unzip, and move to `/Applications`.
