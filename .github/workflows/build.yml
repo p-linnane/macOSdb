@@ -7,7 +7,7 @@ on:
       - "Package.swift"
       - "Package.resolved"
       - "macOSdb.xcodeproj/**"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/build.yml"
 
 defaults:
   run:

@@ -19,6 +19,7 @@ jobs:
     name: Conventional Commits
     runs-on: ubuntu-latest
     permissions:
+      contents: read # required to fetch commits
       pull-requests: read # required to read PR title
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -64,8 +65,10 @@ jobs:
               FAILED=1
             fi
           done < <(git log --format="%h %s" "${BASE_SHA}..${HEAD_SHA}")
+
           if [[ "${FAILED}" -eq 1 ]]; then
             echo ""
-            echo "All commit messages must follow Conventional Commits format."
+            echo "All commit messages must follow: <type>(<scope>): <description>"
+            echo "Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore"
             exit 1
           fi
