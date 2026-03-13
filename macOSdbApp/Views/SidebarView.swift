@@ -132,7 +132,7 @@ private struct ReleaseRow: View {
                     Text(rcLabel)
                         .font(.caption2)
                         .fontWeight(.medium)
-                        .foregroundStyle(.mint)
+                        .foregroundStyle(.green)
                 }
             }
 
