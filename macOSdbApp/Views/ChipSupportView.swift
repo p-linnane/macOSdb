@@ -13,7 +13,7 @@ struct ChipSupportView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
 
-            ForEach(generationGroups, id: \.generation) { genGroup in
+            ForEach(generationGroups, id: \.label) { genGroup in
                 VStack(alignment: .leading, spacing: 8) {
                     Text(genGroup.label)
                         .font(.subheadline)
