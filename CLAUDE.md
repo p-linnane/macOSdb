@@ -33,21 +33,29 @@ macOSdb/
 │   │   └── AppState.swift                 # @Observable @MainActor state container
 │   ├── Views/
 │   │   ├── ContentView.swift              # NavigationSplitView root
-│   │   ├── SidebarView.swift              # Collapsible release groups, beta badges
+│   │   ├── SidebarView.swift              # Collapsible release groups, pre-release toggle
 │   │   ├── ReleaseDetailView.swift        # Component table, kernel info, chips
 │   │   ├── CompareView.swift              # Side-by-side diff with color-coded changes
 │   │   └── ChipSupportView.swift          # Chip/device support grouped by generation
 │   └── Resources/
 │       └── Assets.xcassets/               # App icon, accent color
+├── site/                                  # Astro static site (browse data on the web)
+│   ├── src/
+│   │   ├── pages/                         # index, release/[slug], compare
+│   │   ├── layouts/                       # Base.astro
+│   │   └── styles/                        # global.css
+│   ├── astro.config.mjs
+│   └── package.json
 ├── Tests/
-│   └── macOSdbKitTests/                   # Swift Testing (6 test files, 91 tests)
+│   └── macOSdbKitTests/                   # Swift Testing (6 test files, 93 tests)
 │       └── Fixtures/                      # Test data (sample release JSON)
 ├── data/                                  # Pre-built JSON (committed, CC-BY-4.0)
 │   ├── LICENSE                            # CC-BY-4.0 license for data
 │   ├── releases.json                      # Index file (sorted newest first)
 │   └── releases/{major}/                  # Per-release JSON (macOS-{version}-{build}.json)
+├── justfile                               # Task runner (just clean/build/test/lint/site-dev/check)
 ├── .github/
-│   ├── workflows/                         # CI: test, swiftlint, conventional-commits, codeql, zizmor, release
+│   ├── workflows/                         # CI: build, swiftlint, conventional-commits, codeql, zizmor, json-lint, deploy-site, release
 │   ├── format-release-notes.py            # Formats GitHub auto-generated notes by Conventional Commits type
 │   ├── dependabot.yml                     # Dependabot for GitHub Actions
 │   └── FUNDING.yml                        # GitHub Sponsors
@@ -106,13 +114,17 @@ Note: the symlink is `macosdb-tool` (not `macosdb`) because macOS APFS is case-i
 ### App (macOSdbApp)
 
 SwiftUI app with NavigationSplitView (default window 1000×700):
-- Sidebar: collapsible DisclosureGroup sections by major version (descending), beta badges, show/hide betas toggle
+- Sidebar: collapsible DisclosureGroup sections by major version (descending), beta badges, show/hide pre-releases toggle
 - Detail: sortable component table, kernel info, chip/device support grouped by generation
 - Compare view: side-by-side diff with color-coded summary badges
 - AppState: uses `#filePath` to find local `data/` directory, falls back to GitHub raw URLs
 - App is built by `macOSdb.xcodeproj`; macOSdbKit is added as a local SPM dependency
 - Distribution: Developer ID signed and notarized, not sandboxed
 - Category: Utilities (`public.app-category.utilities`)
+
+### Site (site/)
+
+Astro static site that presents release data on the web. Reads JSON from `data/` at build time. Pages: release index with pre-release filter toggle, per-release detail (`release/[slug]`), and compare view. Deployed to GitHub Pages via `deploy-site.yml`.
 
 ### Data format
 
@@ -142,11 +154,13 @@ macOS release names: 11=Big Sur, 12=Monterey, 13=Ventura, 14=Sonoma, 15=Sequoia,
 
 ## CI workflows (.github/workflows/)
 
-- **ci.yml** — Test on PR with Thread Sanitizer and Address Sanitizer (parallel jobs, xcodebuild)
+- **build.yml** — Test on PR with Thread Sanitizer and Address Sanitizer (parallel jobs, xcodebuild)
 - **swiftlint.yml** — Lint on PR (brew install swiftlint, --strict)
 - **conventional-commits.yml** — Validate PR titles and commit messages match Conventional Commits format
+- **json-lint.yml** — Validate JSON data files on PR
 - **codeql.yml** — CodeQL security analysis for Swift
 - **zizmor.yml** — GitHub Actions security audit (SARIF output, uploaded to Security tab)
+- **deploy-site.yml** — Build and deploy Astro site to GitHub Pages
 - **release.yml** — Manual dispatch: build, sign (Developer ID), notarize, create GitHub release with formatted notes
 
 ## Commit conventions
