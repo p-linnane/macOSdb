@@ -36,17 +36,21 @@ struct ListCommand: AsyncParsableCommand {
             return
         }
 
-        print(String(format: "%-12s %-12s %-12s %s", "Version", "Build", "Date", "Name"))
+        print(
+            "Version".padding(toLength: 12, withPad: " ", startingAt: 0)
+                + "Build".padding(toLength: 12, withPad: " ", startingAt: 0)
+                + "Date".padding(toLength: 12, withPad: " ", startingAt: 0)
+                + "Name"
+        )
         print(String(repeating: "-", count: 56))
 
         for entry in entries {
-            print(String(
-                format: "%-12s %-12s %-12s %s",
-                entry.osVersion,
-                entry.buildNumber,
-                entry.releaseDate ?? "—",
-                entry.releaseName
-            ))
+            print(
+                entry.osVersion.padding(toLength: 12, withPad: " ", startingAt: 0)
+                    + entry.buildNumber.padding(toLength: 12, withPad: " ", startingAt: 0)
+                    + (entry.releaseDate ?? "—").padding(toLength: 12, withPad: " ", startingAt: 0)
+                    + entry.releaseName
+            )
         }
     }
 }

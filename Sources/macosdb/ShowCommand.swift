@@ -58,16 +58,19 @@ struct ShowCommand: AsyncParsableCommand {
             return
         }
 
-        print(String(format: "%-24s %-20s %s", "Component", "Version", "Path"))
+        print(
+            "Component".padding(toLength: 24, withPad: " ", startingAt: 0)
+                + "Version".padding(toLength: 20, withPad: " ", startingAt: 0)
+                + "Path"
+        )
         print(String(repeating: "-", count: 80))
 
         for comp in components.sorted(by: { $0.name.lowercased() < $1.name.lowercased() }) {
-            print(String(
-                format: "%-24s %-20s %s",
-                comp.name,
-                comp.displayVersion,
-                comp.path
-            ))
+            print(
+                comp.name.padding(toLength: 24, withPad: " ", startingAt: 0)
+                    + comp.displayVersion.padding(toLength: 20, withPad: " ", startingAt: 0)
+                    + comp.path
+            )
         }
     }
 }
