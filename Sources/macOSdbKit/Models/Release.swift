@@ -9,7 +9,8 @@ public struct Release: Codable, Identifiable, Hashable, Sendable {
     public let releaseName: String
     public let releaseDate: String?
     public let ipswFile: String?
-    /// Bump when scanner logic changes in a way that would produce different output.
+    public let ipswURL: String?
+    /// Kept in sync with the app's MARKETING_VERSION.
     public let scannerVersion: String?
     public let isBeta: Bool
     public let betaNumber: Int?
@@ -24,6 +25,7 @@ public struct Release: Codable, Identifiable, Hashable, Sendable {
         releaseName: String,
         releaseDate: String? = nil,
         ipswFile: String? = nil,
+        ipswURL: String? = nil,
         scannerVersion: String? = nil,
         isBeta: Bool = false,
         betaNumber: Int? = nil,
@@ -37,6 +39,7 @@ public struct Release: Codable, Identifiable, Hashable, Sendable {
         self.releaseName = releaseName
         self.releaseDate = releaseDate
         self.ipswFile = ipswFile
+        self.ipswURL = ipswURL
         self.scannerVersion = scannerVersion
         self.isBeta = isBeta
         self.betaNumber = betaNumber
@@ -102,6 +105,7 @@ public struct Release: Codable, Identifiable, Hashable, Sendable {
         releaseName = try container.decode(String.self, forKey: .releaseName)
         releaseDate = try container.decodeIfPresent(String.self, forKey: .releaseDate)
         ipswFile = try container.decodeIfPresent(String.self, forKey: .ipswFile)
+        ipswURL = try container.decodeIfPresent(String.self, forKey: .ipswURL)
         scannerVersion = try container.decodeIfPresent(String.self, forKey: .scannerVersion)
         isBeta = try container.decodeIfPresent(Bool.self, forKey: .isBeta) ?? false
         betaNumber = try container.decodeIfPresent(Int.self, forKey: .betaNumber)

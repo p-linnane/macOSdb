@@ -32,6 +32,9 @@ struct ScanCommand: AsyncParsableCommand {
     @Option(name: .long, help: "RC number (e.g. 2 for \"RC 2\"). Omit for just \"RC\".")
     var rcNumber: Int?
 
+    @Option(name: .customLong("ipsw-url"), help: "URL where this IPSW can be downloaded (e.g. Apple CDN URL).")
+    var ipswDownloadURL: String?
+
     @Flag(name: .long, help: "Update the releases.json index alongside the output directory.")
     var updateIndex = false
 
@@ -103,6 +106,7 @@ struct ScanCommand: AsyncParsableCommand {
                 ipswPath: ipswURL,
                 releaseName: releaseName,
                 releaseDate: releaseDate,
+                ipswURL: ipswDownloadURL,
                 isBeta: (beta || betaNumber != nil) ? true : nil,
                 betaNumber: betaNumber,
                 isRC: rc || rcNumber != nil,

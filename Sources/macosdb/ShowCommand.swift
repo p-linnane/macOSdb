@@ -32,6 +32,9 @@ struct ShowCommand: AsyncParsableCommand {
         if let date = release.releaseDate {
             print("Released: \(date)")
         }
+        if let ipswURL = release.ipswURL {
+            print("IPSW: \(ipswURL)")
+        }
         print("")
 
         if detailed, !release.kernels.isEmpty {

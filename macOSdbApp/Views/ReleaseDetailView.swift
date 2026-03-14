@@ -46,6 +46,11 @@ struct ReleaseDetailView: View {
                     "\(release.supportedChips.count) chip families",
                     systemImage: "cpu"
                 )
+                if let urlString = release.ipswURL, let url = URL(string: urlString) {
+                    Link(destination: url) {
+                        Label("IPSW", systemImage: "arrow.down.circle")
+                    }
+                }
             }
             .font(.callout)
             .foregroundStyle(.secondary)
