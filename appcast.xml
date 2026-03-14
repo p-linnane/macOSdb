@@ -3,13 +3,16 @@
     <channel>
         <title>macOSdb</title>
         <item>
-            <title>1.2.2</title>
-            <pubDate>Thu, 12 Mar 2026 05:25:59 +0000</pubDate>
-            <sparkle:version>5</sparkle:version>
-            <sparkle:shortVersionString>1.2.2</sparkle:shortVersionString>
+            <title>1.2.4</title>
+            <pubDate>Sat, 14 Mar 2026 03:14:02 +0000</pubDate>
+            <sparkle:version>7</sparkle:version>
+            <sparkle:shortVersionString>1.2.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[]]></description>
-            <enclosure url="https://github.com/p-linnane/macOSdb/releases/download/1.2.2/macOSdb-1.2.2.zip" length="2695796" type="application/octet-stream" sparkle:edSignature="/pKiXk137ycs7TLK/HSM4pMRASOBsXaRJu/rrAoezHKfXpIGNJDS35ZJbMiOWui+ie5ZFYN6j5MK070iUo1hCA=="/>
+            <description><![CDATA[<h2>Fixes</h2>
+<ul>
+  <li>add appcast.xml to .gitignore</li>
+</ul>]]></description>
+            <enclosure url="https://github.com/p-linnane/macOSdb/releases/download/1.2.4/macOSdb-1.2.4.zip" length="2695895" type="application/octet-stream" sparkle:edSignature="gRdsvRW5mvKWURKxln0aD7c+a6iz5E0rPJcCfv2+j3j+l0WYwKzQ8gIxSAxc9JlYGvqyyby2CGVcKWHeS23mAA=="/>
         </item>
     </channel>
 </rss>
