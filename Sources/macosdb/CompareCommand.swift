@@ -43,7 +43,12 @@ struct CompareCommand: AsyncParsableCommand {
 
         let displayChanges = changed ? comparison.changedComponents : comparison.changes
         if !displayChanges.isEmpty {
-            print(String(format: "%-24s %-20s %-20s %s", "Component", from.osVersion, toRel.osVersion, "Status"))
+            print(
+                "Component".padding(toLength: 24, withPad: " ", startingAt: 0)
+                    + from.osVersion.padding(toLength: 20, withPad: " ", startingAt: 0)
+                    + toRel.osVersion.padding(toLength: 20, withPad: " ", startingAt: 0)
+                    + "Status"
+            )
             print(String(repeating: "-", count: 80))
 
             for change in displayChanges {
@@ -54,13 +59,12 @@ struct CompareCommand: AsyncParsableCommand {
                 case .unchanged: symbol = "="
                 }
 
-                print(String(
-                    format: "%-24s %-20s %-20s %s",
-                    change.name,
-                    change.fromVersion,
-                    change.toVersion,
-                    symbol
-                ))
+                print(
+                    change.name.padding(toLength: 24, withPad: " ", startingAt: 0)
+                        + change.fromVersion.padding(toLength: 20, withPad: " ", startingAt: 0)
+                        + change.toVersion.padding(toLength: 20, withPad: " ", startingAt: 0)
+                        + symbol
+                )
             }
         }
 
