@@ -48,6 +48,13 @@ function releaseSlug(release: any): string {
     <p>A catalog of open-source components in every macOS release since macOS 11 Big Sur.</p>
   </div>
 
+  <div class="filter-bar">
+    <label class="toggle-label">
+      <input type="checkbox" id="show-prereleases" />
+      Show pre-releases
+    </label>
+  </div>
+
   {
     majorVersions.map((major) => (
       <section class="version-group">
@@ -65,7 +72,7 @@ function releaseSlug(release: any): string {
           </thead>
           <tbody>
             {grouped[major].map((release: any) => (
-              <tr>
+              <tr data-prerelease={release.isBeta || release.isRC ? 'true' : undefined}>
                 <td>
                   <a href={`/release/${releaseSlug(release)}/`}>{displayName(release)}</a>
                 </td>
@@ -140,4 +147,47 @@ function releaseSlug(release: any): string {
     background: color-mix(in srgb, var(--color-text) 8%, transparent);
     color: var(--color-text-secondary);
   }
+
+  .filter-bar {
+    margin-bottom: 2rem;
+  }
+
+  .toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .toggle-label input {
+    cursor: pointer;
+  }
+
+  tr[data-prerelease].hidden {
+    display: none;
+  }
 </style>
+
+<script>
+  const checkbox = document.getElementById('show-prereleases') as HTMLInputElement;
+  const key = 'macosdb-show-prereleases';
+
+  function apply(show: boolean) {
+    document.querySelectorAll('tr[data-prerelease]').forEach((row) => {
+      row.classList.toggle('hidden', !show);
+    });
+  }
+
+  const saved = localStorage.getItem(key);
+  const show = saved !== 'false';
+  checkbox.checked = show;
+  apply(show);
+
+  checkbox.addEventListener('change', () => {
+    localStorage.setItem(key, String(checkbox.checked));
+    apply(checkbox.checked);
+  });
+</script>
