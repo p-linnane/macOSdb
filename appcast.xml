@@ -3,46 +3,28 @@
     <channel>
         <title>macOSdb</title>
         <item>
-            <title>1.12.0</title>
-            <pubDate>Tue, 21 Apr 2026 03:39:19 +0000</pubDate>
-            <sparkle:version>21</sparkle:version>
-            <sparkle:shortVersionString>1.12.0</sparkle:shortVersionString>
+            <title>1.12.1</title>
+            <pubDate>Fri, 08 May 2026 03:28:03 +0000</pubDate>
+            <sparkle:version>22</sparkle:version>
+            <sparkle:shortVersionString>1.12.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
             <description><![CDATA[<h2>What&#x27;s New</h2>
 <ul>
-  <li>add `cleanup` command and fix `validate` OOM</li>
-  <li>add macOS-26.4.1-25E253</li>
-  <li>add cross-origin isolation headers</li>
-  <li>add `sudo` component to all macOS releases</li>
-  <li>add macOS-26.5-25F5053d by @starhaven-bot[bot]</li>
-  <li>add Xcode-26.5-17F5022i by @starhaven-bot[bot]</li>
-  <li>add Xcode-26.4.1-17E202 by @starhaven-bot[bot]</li>
-  <li>add Min macOS and SDK columns to Xcode release index</li>
-  <li>add macOS-26.5-25F5058e by @starhaven-bot[bot]</li>
-  <li>capture SDK build number from SystemVersion.plist</li>
+  <li>add Xcode-26.5-17F5032f by @starhaven-bot[bot]</li>
+  <li>add macOS-26.5-25F5068a by @starhaven-bot[bot]</li>
+  <li>add macOS-26.5-25F71 by @starhaven-bot[bot]</li>
+  <li>add Xcode-26.5-17F42 by @starhaven-bot[bot]</li>
 </ul>
 <h2>Fixes</h2>
 <ul>
-  <li>match bare sudo versions without pN suffix</li>
-  <li>unblock pagefind and Cloudflare Insights in CSP</li>
-  <li>remove unsupported versioning-strategy for Swift</li>
-  <li>use Apple CDN for authenticated XIP downloads</li>
-  <li>improve download validation and error handling</li>
-  <li>fix HTTP status code parsing in pre-flight check</li>
-  <li>fix case-sensitive XAR check and curl progress spam</li>
-  <li>pass CDN URL to scanner for correct `xipFile` field</li>
-  <li>add CORS to API and harden JSON-LD escaping</li>
-  <li>enable cross-origin access for /api/* responses</li>
-  <li>drop inherited CORP header on /api/* responses</li>
-  <li>correct releaseDate for macOS-26.5-25F5058e</li>
-  <li>exclude gnu.org from link check</li>
-  <li>migrate all Xcode xipURLs to services-account portal form</li>
+  <li>use brew bump-cask-pr for explicit version bumps</li>
+  <li>extract xipFile from services-account `path=` query</li>
 </ul>
-<h2>Documentation</h2>
+<h2>Testing</h2>
 <ul>
-  <li>refresh stale references in README and CLAUDE.md</li>
+  <li>expand BinaryStringScanner coverage, split ScannerTests.swift</li>
 </ul>]]></description>
-            <enclosure url="https://github.com/starhaven-io/macOSdb/releases/download/1.12.0/macOSdb-1.12.0.zip" length="2824580" type="application/octet-stream" sparkle:edSignature="V/eRiExu7J+slgdXl3tTgb9M/zzDt91V53fCdZduARGlpiNCFVxCKrajwIVhmuSbbLfgEpX2rrRy2hG6Oca9Cg=="/>
+            <enclosure url="https://github.com/starhaven-io/macOSdb/releases/download/1.12.1/macOSdb-1.12.1.zip" length="2824975" type="application/octet-stream" sparkle:edSignature="EQOrvxR3CNiGKNjIEULR2yHPKTOwKxIkxw7MoXKohui8os2MFEVuxQeVB1BOncNDBNbLiL77SbFWJ5Ex0OXjDQ=="/>
         </item>
     </channel>
 </rss>
