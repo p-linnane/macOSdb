@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import Search from 'astro-pagefind/components/Search';
+import Search from 'astro-pagefind/components/Search.astro';
 
 interface Props {
   title: string;
@@ -70,15 +70,30 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site).toString() : undefined
           <a href="/api/">API</a>
           <a href="/about/">About</a>
           <div class="search-wrapper">
-            <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false, resetStyles: false }} />
+            <Search
+              instance="header"
+              className="header-search"
+              searchboxOptions={{ placeholder: 'Search', 'hide-shortcut': true, 'show-keyboard-hints': false }}
+            />
             <script is:inline>
-              new MutationObserver((_, obs) => {
-                const input = document.querySelector('.pagefind-ui__search-input');
+              function labelSearchInput() {
+                const sb = document.querySelector('.header-search');
+                if (!sb) return;
+                const input = sb.querySelector('.pf-searchbox-input');
                 if (input) {
                   input.setAttribute('aria-label', 'Search this site');
-                  obs.disconnect();
+                  return;
                 }
-              }).observe(document.getElementById('search'), { childList: true, subtree: true });
+                new MutationObserver((_, obs) => {
+                  const el = sb.querySelector('.pf-searchbox-input');
+                  if (el) {
+                    el.setAttribute('aria-label', 'Search this site');
+                    obs.disconnect();
+                  }
+                }).observe(sb, { childList: true, subtree: true });
+              }
+              labelSearchInput();
+              document.addEventListener('astro:page-load', labelSearchInput);
             </script>
           </div>
           <a href="https://github.com/starhaven-io/macOSdb" class="github-link" aria-label="GitHub repository">
@@ -278,86 +293,29 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site).toString() : undefined
     position: relative;
   }
 
-  .search-wrapper :global(.pagefind-ui) {
-    --pagefind-ui-scale: 0.7;
-    --pagefind-ui-primary: var(--color-link);
-    --pagefind-ui-text: var(--color-text);
-    --pagefind-ui-background: var(--color-bg);
-    --pagefind-ui-border: var(--color-border);
-    --pagefind-ui-border-width: 1px;
-    --pagefind-ui-border-radius: 6px;
-    --pagefind-ui-font: var(--font-system);
+  .search-wrapper :global(pagefind-searchbox) {
+    --pf-text: var(--color-text);
+    --pf-text-secondary: var(--color-text-secondary);
+    --pf-text-muted: var(--color-text-secondary);
+    --pf-background: var(--color-bg);
+    --pf-border: var(--color-border);
+    --pf-border-focus: var(--color-text-secondary);
+    --pf-hover: var(--color-bg-secondary);
+    --pf-outline-focus: var(--color-link);
+    --pf-font: var(--font-system);
+    --pf-border-radius: 6px;
+    --pf-input-height: 32px;
+    --pf-input-font-size: 0.9rem;
+    --pf-searchbox-max-width: 220px;
+    --pf-searchbox-dropdown-max-height: min(70vh, 500px);
+    font-size: 0.9rem;
   }
 
-  .search-wrapper :global(.pagefind-ui__form) {
-    position: static;
-  }
-
-  .search-wrapper :global(.pagefind-ui__search-input) {
-    color: var(--color-text);
-    position: relative;
-    font-family: var(--font-system);
-    font-weight: 400;
-  }
-
-  .search-wrapper :global(.pagefind-ui__search-input::placeholder) {
-    color: var(--color-text-secondary);
-    opacity: 1;
-  }
-
-  .search-wrapper :global(.pagefind-ui__search-clear) {
-    position: absolute;
-    top: 50%;
-    right: 8px;
-    transform: translateY(-50%);
-    background: transparent;
-    color: var(--color-text-secondary);
-    border: none;
-    cursor: pointer;
-    font-size: 0;
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .search-wrapper :global(.pagefind-ui__search-clear::before) {
-    content: '✕';
-    font-size: 14px;
-    color: var(--color-text-secondary);
-  }
-
-  .search-wrapper :global(.pagefind-ui__search-clear:hover::before) {
-    color: var(--color-text);
-  }
-
-  .search-wrapper :global(.pagefind-ui__drawer) {
-    position: absolute;
-    top: calc(100% + 4px);
+  .search-wrapper :global(.pf-searchbox-dropdown) {
+    left: auto;
     right: 0;
     width: 500px;
-    max-height: 70vh;
-    overflow-y: auto;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-    padding: 0.75rem;
-    animation: searchDropdown 0.15s ease-out;
-  }
-
-  @keyframes searchDropdown {
-    from {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    min-width: 100%;
   }
 
   .github-link {
@@ -420,18 +378,15 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site).toString() : undefined
       display: none;
     }
 
-    .search-wrapper :global(.pagefind-ui) {
-      --pagefind-ui-scale: 0.6;
+    .search-wrapper :global(pagefind-searchbox) {
+      --pf-searchbox-max-width: 180px;
+      --pf-input-height: 30px;
     }
 
-    .search-wrapper :global(.pagefind-ui__drawer) {
-      position: fixed;
-      top: auto;
-      right: 0.5rem;
-      left: 0.5rem;
-      width: auto;
-      max-height: 60vh;
-      margin-top: 4px;
+    .search-wrapper :global(.pf-searchbox-dropdown) {
+      width: calc(100vw - 1rem);
+      max-width: calc(100vw - 1rem);
+      right: -0.5rem;
     }
 
     main {
