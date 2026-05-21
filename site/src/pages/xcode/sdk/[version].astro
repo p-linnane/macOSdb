@@ -1,0 +1,174 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Badge from '../../../components/Badge.astro';
+import StructuredData from '../../../components/StructuredData.astro';
+import { getAllSDKVersions, getSDKHistory } from '../../../lib/api';
+import { formatDate } from '../../../lib/utils';
+
+export async function getStaticPaths() {
+  const versions = await getAllSDKVersions();
+  const paths = await Promise.all(
+    versions.map(async (version) => {
+      const history = await getSDKHistory(version);
+      return {
+        params: { version },
+        props: {
+          version,
+          latestBuild: history!.latestBuild,
+          entries: history!.entries,
+        },
+      };
+    }),
+  );
+  return paths;
+}
+
+const { version, latestBuild, entries } = Astro.props;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Dataset',
+  name: `macOS SDK ${version}`,
+  description: `Xcode releases that bundled macOS SDK ${version}.`,
+  url: `https://macosdb.com/xcode/sdk/${version}/`,
+};
+---
+
+<Base title={`macOS SDK ${version} — macOSdb`} description={`Xcode releases that bundled macOS SDK ${version}.`}>
+  <StructuredData slot="head" data={structuredData} />
+
+  <nav class="breadcrumb" data-pagefind-ignore>
+    <a href="/">macOSdb</a> &rsaquo; <a href="/xcode/">Xcode</a> &rsaquo; SDK {version}
+  </nav>
+
+  <header class="sdk-header">
+    <h1 data-pagefind-weight="2">macOS SDK {version}</h1>
+    <div class="meta" data-pagefind-ignore>
+      {
+        latestBuild && (
+          <span>
+            Latest build: <code>{latestBuild}</code>
+          </span>
+        )
+      }
+      <span>
+        {entries.length} Xcode release{entries.length === 1 ? '' : 's'}
+      </span>
+    </div>
+  </header>
+
+  <section class="history">
+    <h2>Releases</h2>
+    <p class="subtitle">Every Xcode release that bundled this SDK version, newest first.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>SDK Build</th>
+            <th>Xcode Release</th>
+            <th>Xcode Build</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            entries.map((entry) => (
+              <tr>
+                <td>
+                  {entry.sdkBuild ? (
+                    <>
+                      <code>{entry.sdkBuild}</code>
+                      {entry.isFirstShippingBuild && <span class="status-badge status-added">New</span>}
+                    </>
+                  ) : (
+                    <span class="dash">—</span>
+                  )}
+                </td>
+                <td>
+                  <a href={`/xcode/release/${entry.xcodeSlug}/`}>{entry.xcodeName}</a>
+                  {entry.isBeta && <Badge variant="beta" />}
+                  {entry.isRC && <Badge variant="rc" />}
+                </td>
+                <td>
+                  <code>{entry.xcodeBuild}</code>
+                </td>
+                <td>{entry.xcodeReleaseDate ? formatDate(entry.xcodeReleaseDate) : ''}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .breadcrumb {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+  }
+
+  .sdk-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .sdk-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .meta {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    color: var(--color-text-secondary);
+    flex-wrap: wrap;
+  }
+
+  .history h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dash {
+    color: var(--color-text-secondary);
+  }
+
+  .status-badge {
+    display: inline-block;
+    margin-left: 0.5em;
+    padding: 0.2em 0.6em;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .status-added {
+    background: color-mix(in srgb, var(--color-added) 12%, transparent);
+    color: var(--color-added);
+  }
+
+  @media (max-width: 640px) {
+    .sdk-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .meta {
+      gap: 0.75rem;
+    }
+  }
+</style>

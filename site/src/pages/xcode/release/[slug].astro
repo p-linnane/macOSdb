@@ -90,10 +90,10 @@ const structuredData = [
         <h2>Bundled SDKs</h2>
         <div class="sdk-list">
           {release.sdks.map((sdk) => (
-            <span class="sdk-badge">
+            <a class="sdk-badge" href={`/xcode/sdk/${sdk.sdkVersion}/`}>
               macOS {sdk.sdkVersion}
               {sdk.buildVersion && <span class="sdk-build">({sdk.buildVersion})</span>}
-            </span>
+            </a>
           ))}
         </div>
       </section>
@@ -131,6 +131,16 @@ const structuredData = [
     border-radius: 6px;
     background: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      background 0.15s,
+      border-color 0.15s;
+  }
+
+  .sdk-badge:hover {
+    background: var(--color-bg);
+    border-color: var(--color-accent);
   }
 
   .sdk-build {
