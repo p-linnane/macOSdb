@@ -206,3 +206,69 @@ export async function getAllComponentSlugs(product: Product): Promise<string[]> 
   }
   return [...slugs].sort();
 }
+
+export interface SDKReleaseEntry {
+  sdkBuild: string | null;
+  xcodeName: string;
+  xcodeSlug: string;
+  xcodeBuild: string;
+  xcodeReleaseDate: string;
+  isBeta: boolean;
+  isRC: boolean;
+  isFirstShippingBuild: boolean;
+}
+
+export interface SDKHistory {
+  version: string;
+  latestBuild: string | null;
+  entries: SDKReleaseEntry[];
+}
+
+export async function getAllSDKVersions(): Promise<string[]> {
+  const allReleases = await getCollection('xcodeReleaseDetails');
+  const versions = new Set<string>();
+  for (const release of allReleases) {
+    for (const sdk of release.data.sdks ?? []) {
+      versions.add(sdk.sdkVersion);
+    }
+  }
+  return [...versions].sort((a, b) => {
+    const dir = compareVersions(a, b);
+    return dir === 'upgraded' ? 1 : dir === 'downgraded' ? -1 : 0;
+  });
+}
+
+export async function getSDKHistory(version: string): Promise<SDKHistory | null> {
+  const allReleases = await getCollection('xcodeReleaseDetails');
+
+  // Walk oldest-first so we can mark the earliest release for each SDK build.
+  const oldestFirst = [...allReleases].sort(
+    (a, b) => new Date(a.data.releaseDate ?? '').getTime() - new Date(b.data.releaseDate ?? '').getTime(),
+  );
+
+  const seenBuilds = new Set<string>();
+  const entries: SDKReleaseEntry[] = [];
+  for (const release of oldestFirst) {
+    const sdk = release.data.sdks?.find((s) => s.sdkVersion === version);
+    if (!sdk) continue;
+    const isFirstShipping = sdk.buildVersion ? !seenBuilds.has(sdk.buildVersion) : false;
+    if (sdk.buildVersion) seenBuilds.add(sdk.buildVersion);
+    entries.push({
+      sdkBuild: sdk.buildVersion ?? null,
+      xcodeName: displayName(release.data, false, 'Xcode'),
+      xcodeSlug: releaseSlug(release.data),
+      xcodeBuild: release.data.buildNumber,
+      xcodeReleaseDate: release.data.releaseDate ?? '',
+      isBeta: release.data.isBeta,
+      isRC: release.data.isRC,
+      isFirstShippingBuild: isFirstShipping,
+    });
+  }
+
+  if (entries.length === 0) return null;
+
+  // Reverse to newest-first for display.
+  entries.reverse();
+  const latestBuild = entries.find((e) => e.sdkBuild)?.sdkBuild ?? null;
+  return { version, latestBuild, entries };
+}
