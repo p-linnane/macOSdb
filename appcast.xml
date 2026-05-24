@@ -3,28 +3,18 @@
     <channel>
         <title>macOSdb</title>
         <item>
-            <title>1.12.1</title>
-            <pubDate>Fri, 08 May 2026 03:28:03 +0000</pubDate>
-            <sparkle:version>22</sparkle:version>
-            <sparkle:shortVersionString>1.12.1</sparkle:shortVersionString>
+            <title>1.13.0</title>
+            <pubDate>Sun, 24 May 2026 14:36:19 +0000</pubDate>
+            <sparkle:version>23</sparkle:version>
+            <sparkle:shortVersionString>1.13.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
             <description><![CDATA[<h2>What&#x27;s New</h2>
 <ul>
-  <li>add Xcode-26.5-17F5032f by @starhaven-bot[bot]</li>
-  <li>add macOS-26.5-25F5068a by @starhaven-bot[bot]</li>
-  <li>add macOS-26.5-25F71 by @starhaven-bot[bot]</li>
-  <li>add Xcode-26.5-17F42 by @starhaven-bot[bot]</li>
-</ul>
-<h2>Fixes</h2>
-<ul>
-  <li>use brew bump-cask-pr for explicit version bumps</li>
-  <li>extract xipFile from services-account `path=` query</li>
-</ul>
-<h2>Testing</h2>
-<ul>
-  <li>expand BinaryStringScanner coverage, split ScannerTests.swift</li>
+  <li>add SDK history view for Xcode releases</li>
+  <li>add SDK history page for Xcode releases</li>
+  <li>add shell completions subcommand</li>
 </ul>]]></description>
-            <enclosure url="https://github.com/starhaven-io/macOSdb/releases/download/1.12.1/macOSdb-1.12.1.zip" length="2824975" type="application/octet-stream" sparkle:edSignature="EQOrvxR3CNiGKNjIEULR2yHPKTOwKxIkxw7MoXKohui8os2MFEVuxQeVB1BOncNDBNbLiL77SbFWJ5Ex0OXjDQ=="/>
+            <enclosure url="https://github.com/starhaven-io/macOSdb/releases/download/1.13.0/macOSdb-1.13.0.zip" length="2839293" type="application/octet-stream" sparkle:edSignature="C1b/WHYv/gu9e4BIbXVdCMppMT4+IeYb65AEmTDCbrLOZ/348UIxdaAO/OjsZsgespwfBCDIs4Paf3XTUHC1Aw=="/>
         </item>
     </channel>
 </rss>
