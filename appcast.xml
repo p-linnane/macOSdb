@@ -3,18 +3,29 @@
     <channel>
         <title>macOSdb</title>
         <item>
-            <title>1.13.0</title>
-            <pubDate>Sun, 24 May 2026 14:36:19 +0000</pubDate>
-            <sparkle:version>23</sparkle:version>
-            <sparkle:shortVersionString>1.13.0</sparkle:shortVersionString>
+            <title>1.13.1</title>
+            <pubDate>Sat, 30 May 2026 05:06:36 +0000</pubDate>
+            <sparkle:version>24</sparkle:version>
+            <sparkle:shortVersionString>1.13.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
             <description><![CDATA[<h2>What&#x27;s New</h2>
 <ul>
-  <li>add SDK history view for Xcode releases</li>
-  <li>add SDK history page for Xcode releases</li>
-  <li>add shell completions subcommand</li>
+  <li>add macOS-26.6-25G5028f by @starhaven-bot[bot]</li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+  <li>remove unused macOSdbKit import from SDKDetailView</li>
+  <li>sync sidecar mtime to source archive</li>
+  <li>DMG mount-leak and release-loading robustness</li>
+  <li>view-layer accessibility and error-state polish</li>
+  <li>hardening pass from a fresh review (scanner, CI, app, site, docs)</li>
+  <li>review polish (build-number ordering, chip fallback, shared CLI helpers)</li>
+</ul>
+<h2>Testing</h2>
+<ul>
+  <li>cover parse/validate and end-to-end behavior</li>
 </ul>]]></description>
-            <enclosure url="https://github.com/starhaven-io/macOSdb/releases/download/1.13.0/macOSdb-1.13.0.zip" length="2839293" type="application/octet-stream" sparkle:edSignature="C1b/WHYv/gu9e4BIbXVdCMppMT4+IeYb65AEmTDCbrLOZ/348UIxdaAO/OjsZsgespwfBCDIs4Paf3XTUHC1Aw=="/>
+            <enclosure url="https://github.com/starhaven-io/macOSdb/releases/download/1.13.1/macOSdb-1.13.1.zip" length="2849145" type="application/octet-stream" sparkle:edSignature="CIeZ92hKl2KBfpnOlp/ATUJR3wkpPfBhYaMBuBb2xa2mXZMdqLYDOQkxAsehGjlFsNpLq6UKBzJ/MGi03as2CA=="/>
         </item>
     </channel>
 </rss>
