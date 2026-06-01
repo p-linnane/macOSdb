@@ -134,8 +134,13 @@ struct ValidateCommand: AsyncParsableCommand {
         let handle = try FileHandle(forReadingFrom: url)
         defer { handle.closeFile() }
 
+        // Live percentage redraws in place on a terminal; in a non-TTY log (CI,
+        // pipes) carriage returns don't collapse, so fall back to a discrete
+        // status line every 10% — scan-style progress, not thousands of lines.
+        let interactive = isatty(STDERR_FILENO) != 0
         var hasher = SHA256()
         var bytesRead = 0
+        var lastDecile = -1
 
         while true {
             var finished = false
@@ -149,13 +154,18 @@ struct ValidateCommand: AsyncParsableCommand {
                 bytesRead += chunk.count
                 if fileSize > 0 {
                     let pct = bytesRead * 100 / fileSize
-                    printInline("  Hashing... \(pct)%")
+                    if interactive {
+                        printInline("  Hashing... \(pct)%")
+                    } else if pct / 10 != lastDecile {
+                        lastDecile = pct / 10
+                        printStatus("  Hashing... \(pct)%")
+                    }
                 }
             }
             if finished { break }
         }
 
-        printInline("")
+        if interactive { printInline("") }
         let digest = hasher.finalize()
         return digest.compactMap { String(format: "%02x", $0) }.joined()
     }
